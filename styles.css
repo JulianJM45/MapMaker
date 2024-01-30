@@ -1,0 +1,61 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #map {
+    height: 100vh;
+    width: 100vw;
+  }
+#download-button, #configure-button {
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    z-index: 800;
+}
+
+#configure-button {
+    top: 100px;
+}
+
+#configuration-form {
+    position: absolute;
+    top: 150px;
+    right: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+    line-height: 2; /* Adjust line height for more space between lines */
+}
+
+.button-box {
+    width: 300px;
+    margin: 5px auto;
+    position: relative;
+    border-radius: 30px;
+    background: #fff;
+}
+
+.toggle-btn {
+    padding: 10px 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+    text-align: center;
+    width: 49%;
+}
+
+#btn {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    background: #0fc1ee;
+    border-radius: 30px;
+    transition: .5s;
+}
