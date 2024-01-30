@@ -7,7 +7,12 @@ import img2pdf
 POL_CF = 40007863    # Earth's circumference around poles
 ECF = 40075016.686   # Earth's circumference around the equator
 
-myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf" 
+# myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf" 
+if os.name == 'nt':  # Windows
+    myfont = "C:\\Windows\\Fonts\\DejaVuSansMono.ttf"
+else:  # Linux and other UNIX-like systems
+    myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
+
 
 
 def getMap(index, coordinates, MAP_STYLE, WIDTH_METERS, HEIGHT_METERS, ZOOM):
