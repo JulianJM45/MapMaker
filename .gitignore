@@ -1,1 +1,5 @@
 .venv/
+MyMaps/
+tiles/
+*.pdf
+

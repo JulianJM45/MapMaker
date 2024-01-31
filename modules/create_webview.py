@@ -26,6 +26,6 @@ def createWebview(htmlfile, cssfile, jsfile):
         js_content = f.read()
     html_content = html_content.replace('</body>', '<script>\n' + js_content + '\n</script>\n</body>')
 
-    window = webview.create_window("My Webview App", html=html_content, js_api=api)
-    # webview.create_window("My Webview App", html=html_content, js_api=api, width=1920, height=1080)
+    # window = webview.create_window("My Webview App", html=html_content, js_api=api)
+    webview.create_window("MapMaker", html=html_content, js_api=api, width=1920, height=1080)
     webview.start()

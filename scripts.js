@@ -100,12 +100,24 @@ var outdooractiveAUT = L.tileLayer('https://t0.outdooractive.com/austria/map/{z}
 var outdooractiveST = L.tileLayer('https://t0.outdooractive.com/suedtirol/map/{z}/{x}/{y}.png', {
     name: 't0.outdooractive.com/suedtirol/map' // Set the name property
 });
-// Add both tile layers to the map
+// Add all tile layers to the map
 outdooractiveST.addTo(map);
 outdooractiveAUT.addTo(map);
 outdooractiveDE.addTo(map);
-// openTopoMapLayer.addTo(map);
 openStreetMapLayer.addTo(map);
+// check if opentopomap is available
+fetch('https://tile.opentopomap.org/')
+    .then(response => {
+        if (response.ok) {
+            openTopoMapLayer.addTo(map);
+        } else {
+            console.log('Website is not available');
+        }
+    })
+    .catch(error => {
+        console.log('An error occurred while checking the website availability:', error);
+    });
+
 
 // Create a layer control and add it to the map
 var baseMaps = {
