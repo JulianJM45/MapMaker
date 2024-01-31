@@ -1,5 +1,13 @@
+# virtual environment venv
 .venv/
+
+# downloaded maps
 MyMaps/
 tiles/
 *.pdf
+
+# pyinstaller
+build/
+dist/
+main.spec
 
