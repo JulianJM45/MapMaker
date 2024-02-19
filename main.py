@@ -12,6 +12,8 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 htmlfile = os.path.join(current_dir, 'index.html')
 cssfile = os.path.join(current_dir, 'styles.css')
 jsfile = os.path.join(current_dir, 'scripts.js')
+# jsfile = os.path.join(current_dir, 'scriptTest.js')
+
 
 
 def main():

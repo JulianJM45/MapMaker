@@ -15,9 +15,11 @@ else:  # Linux and other UNIX-like systems
 
 
 
-def getMap(index, coordinates, MAP_STYLE, WIDTH_METERS, HEIGHT_METERS, ZOOM):
+def getMap(index, coordinates, MAP_STYLE, ZOOM):
     nwLat, nwLon = coordinates['Northwest']
     seLat, seLon = coordinates['SouthEast']
+
+    WIDTH_METERS, HEIGHT_METERS = getMetersFromCoordinates(nwLat, seLat, seLon, nwLon)
     # Calculate tiles 
     x1, y1 = deg2num(nwLat, nwLon, ZOOM)
     x2, y2 = deg2num(seLat, seLon, ZOOM)
@@ -45,6 +47,11 @@ def getMap(index, coordinates, MAP_STYLE, WIDTH_METERS, HEIGHT_METERS, ZOOM):
 
 
 
+
+def getMetersFromCoordinates(north, south, east, west):
+    widthMeters = (east - west) * (ECF * math.cos(math.radians((north+south)/2))) / 360
+    heightMeters = (north - south) * POL_CF / 360
+    return [widthMeters, heightMeters]
 
 
 def getZoom(max_distance):

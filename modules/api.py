@@ -7,10 +7,8 @@ class Api:
         print("Selected Tile Layer:", MAP_STYLE)
         if upscale: print("upscaling")
         else: print ("no upscaling")
-        WIDTH_METERS = WIDTH * SCALE / 1000
-        HEIGHT_METERS = HEIGHT * SCALE / 1000
-        max_distance=max(WIDTH_METERS, HEIGHT_METERS)
-        if AutoZoom: ZOOM = getZoom(max_distance)
+        max_distance=max(WIDTH, HEIGHT)
+        if AutoZoom: ZOOM = getZoom(max_distance *SCALE/1000)
         print (ZOOM)
         if not os.path.exists("MyMaps"):
                 os.makedirs("MyMaps")
@@ -20,7 +18,7 @@ class Api:
             overviewImage, ovmc = overviewMap(coordinates_list, MAP_STYLE, WIDTH, HEIGHT)
                     
         for index, coordinates in enumerate(coordinates_list):
-            getMap(index, coordinates, MAP_STYLE, WIDTH_METERS, HEIGHT_METERS, ZOOM)
+            getMap(index, coordinates, MAP_STYLE, ZOOM)
             # Extract and assign the coordinates to separate variables
             
             if index % 2 == 0:
