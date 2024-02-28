@@ -1,13 +1,8 @@
 
 import webview
+import threading
 
 from .api import *
-
-# class Api:
-#     def send_coordinates(self, coordinates_list, MAP_STYLE, WIDTH, HEIGHT, SCALE, ZOOM, upscale, Overview, AutoZoom, PDF):
-#         print("Sending coordinates to Python:", coordinates_list)
-#         print("Selected Tile Layer:", MAP_STYLE)
-
 
 
 def createWebview(htmlfile, cssfile, jsfile):
@@ -27,5 +22,13 @@ def createWebview(htmlfile, cssfile, jsfile):
     html_content = html_content.replace('</body>', '<script>\n' + js_content + '\n</script>\n</body>')
 
     # window = webview.create_window("My Webview App", html=html_content, js_api=api)
-    webview.create_window("MapMaker", html=html_content, js_api=api, width=1920, height=1080)
+    window = webview.create_window("MapMaker", html=html_content, js_api=api, width=1920, height=1080)
+
+    api.set_Window(window)
+
+    threading.Thread(target=api.print_message).start()
+    # threading.Thread(target=api.update_message, args=(apiTest,)).start()
+
     webview.start()
+
+

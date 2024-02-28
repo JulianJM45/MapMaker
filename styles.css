@@ -22,7 +22,7 @@ html, body {
     position: absolute;
     top: 150px;
     right: 10px;
-    background-color: #fff;
+    background-color: rgba(249, 249, 249, 0.9); 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -58,4 +58,17 @@ html, body {
     background: #0fc1ee;
     border-radius: 30px;
     transition: .5s;
+}
+
+#log {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 300px;
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: rgba(249, 249, 249, 0.8); 
+    z-index: 0;
 }
