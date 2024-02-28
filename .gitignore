@@ -9,5 +9,5 @@ tiles/
 # pyinstaller
 build/
 dist/
-main.spec
+*.spec
 
