@@ -1,7 +1,19 @@
 import os
 from .get_map import *
+import subprocess
+import platform
+import re
+
 
 class Api:
+    def set_Window(self, window):
+        self.window = window
+
+    def print_message(self, message="Hello from Python!"):
+        js_code = f'showMessage("{message}");'
+        self.window.evaluate_js(js_code)
+
+
     def send_coordinates(self, coordinates_list, MAP_STYLE, WIDTH, HEIGHT, SCALE, ZOOM, upscale, Overview, AutoZoom, PDF):
         print("Sending coordinates to Python:", coordinates_list)
         print("Selected Tile Layer:", MAP_STYLE)
@@ -14,10 +26,12 @@ class Api:
                 os.makedirs("MyMaps")
         odd_maps = []
         even_maps = []
-        if Overview: 
+        if Overview:
+            self.print_message("Downloading Overview Map...") 
             overviewImage, ovmc = overviewMap(coordinates_list, MAP_STYLE, WIDTH, HEIGHT)
                     
         for index, coordinates in enumerate(coordinates_list):
+            self.print_message(f"Downloading Map {index + 1}...")
             getMap(index, coordinates, MAP_STYLE, ZOOM)
             # Extract and assign the coordinates to separate variables
             
@@ -32,14 +46,17 @@ class Api:
             import shutil
             shutil.rmtree("tiles")
         print('download finished :)')
+        self.print_message("Download finished")
 
         # Upscale the images if applicable
         if upscale:
+            self.print_message("Upscaling maps...")
             map_files = os.listdir('MyMaps')
             for map_file in map_files:
-                print(f'upscaling {map_file}...')
-                upscaling(map_file)      
+                if 'OverviewMap' in map_file: continue  # Skip this iteration              
+                upscaling(map_file, self.print_message)      
             print('upscale finished :)')
+            self.print_message("Upscale finished")
 
         image_paths = odd_maps + even_maps
         if Overview:
@@ -49,6 +66,7 @@ class Api:
             PDFgen(image_paths)
             if os.path.exists("MyMaps"):
                     shutil.rmtree("MyMaps")
+        self.print_message("Process finished :)")
 
 
 
@@ -150,9 +168,31 @@ def PDFgen(image_paths):
     print(f'PDF created: {pdf_filename}')
 
     
-def upscaling(map_file):
-    print('upscaling has still to be implemented') 
-    # # Define the command as a list of strings
-    # command = ['./realesrgan-ncnn-vulkan','-i', f'MyMaps/{map_file}','-o', f'MyMaps/{map_file}', '-n', 'realesrgan-x4plus']
-    # # Run the command
-    # subprocess.run(command)
+def upscaling(map_file, print_message):
+    map_file_without_extension, _ = os.path.splitext(map_file)
+
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+
+    if platform.system() == 'Windows':
+        executable = 'realesrgan-ncnn-vulkan.exe'
+    elif platform.system() == 'Linux':
+        executable = 'realesrgan-ncnn-vulkan'
+    elif platform.system() == 'Darwin':
+        executable = 'realesrgan-ncnn-vulkan'
+    else:
+        print('Unknown OS')
+    # Define the command as a list of strings
+    executablefile = os.path.join(current_dir, executable)
+
+    command = [executablefile,'-i', f'MyMaps/{map_file}','-o', f'MyMaps/{map_file}', '-n', 'realesrgan-x4plus']
+    # Run the command
+    process = subprocess.Popen(command, stderr=subprocess.PIPE, text=True)
+    for line in iter(process.stderr.readline, ''):
+        print(line, end='')
+        # Extract the number
+        match = re.search(r'(\d+.\d+)%', line)
+        if match:
+            number = float(match.group(1))
+            # print('Progress:', number)
+            print_message(f'upscaling {map_file_without_extension}:\u2003{number}%')
+

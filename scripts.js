@@ -2,13 +2,26 @@
 const POL_CF = 40007863; // Earth's circumference around poles
 const ECF = 40075016.686; // Earth's circumference around equator
 
-// console.log = function(message) {
-//     var logDiv = document.getElementById('log');
-//     var messageDiv = document.createElement('div');
-//     messageDiv.textContent = message;
-//     logDiv.appendChild(messageDiv);
-// };
-// console.log('Hello, World!');
+
+// #0.1 console.log
+// document.getElementById('log').style.zIndex = "1000";
+
+console.log = function(message) {
+    var logDiv = document.getElementById('log');
+    var messageDiv = document.createElement('div');
+    messageDiv.textContent = message;
+    logDiv.appendChild(messageDiv);
+};
+console.log('Hello, World!');
+
+function showMessage(message) {
+    // console.log(message);
+    document.getElementById('log').innerText = message;
+}
+
+
+
+
 
 // #1 configuration
 const elementIds = {
@@ -35,18 +48,18 @@ let config = {
     autoZoom: elements.autoZoomCheckbox.checked,
     upscale: elements.upscaleCheckbox.checked,
     overview: elements.overviewCheckbox.checked,
-    pdf: true,  // This value isn't in your HTML, so we'll just set it to true
+    pdf: false,  // This value isn't in your HTML, so we'll just set it to true
 };
 
 // switch button
 var btn = document.getElementById('btn')
 function leftClick() {
     btn.style.left = '0';
-    config.pdf = true;
+    config.pdf = false;
 }
 function rightClick() {
     btn.style.left = '50%';
-    config.pdf = false;
+    config.pdf = true;
 }
 
 // Apply the blur effect by default
@@ -108,8 +121,8 @@ function showZoomLevel() {
 
 
 // #2 map
-var map = L.map('map').setView([50.604, 10.887], 7);
-// var map = L.map('map').setView([49.3497, 8.1429], 12);
+// var map = L.map('map').setView([50.604, 10.887], 7);
+var map = L.map('map').setView([49.3497, 8.1429], 12);
 
 var openTopoMapLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
     name: 'tile.opentopomap.org' // Set the name property
@@ -280,6 +293,9 @@ map.on('draw:created', function (e) {
 // #5 send coordinates
 
 function sendCoordinates() {
+    document.getElementById('log').style.zIndex = "1000";
+    toggleConfiguration()
+
     console.log("sending coordinates...");
     var coordinates_List = [];
 
