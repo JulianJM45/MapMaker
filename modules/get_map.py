@@ -9,7 +9,7 @@ ECF = 40075016.686   # Earth's circumference around the equator
 
 # myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf" 
 if os.name == 'nt':  # Windows
-    myfont = "C:\\Windows\\Fonts\\DejaVuSansMono.ttf"
+    myfont = "C:\\Windows\\Fonts\\Arial.ttf"
 else:  # Linux and other UNIX-like systems
     myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
 

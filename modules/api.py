@@ -191,8 +191,8 @@ def upscaling(map_file, print_message):
         print(line, end='')
         # Extract the number
         match = re.search(r'(\d+.\d+)%', line)
-        if match:
-            number = float(match.group(1))
+        if match:            
+            number = float(match.group(1).replace(',', '.') )
             # print('Progress:', number)
             print_message(f'upscaling {map_file_without_extension}:\u2003{number}%')
 

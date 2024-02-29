@@ -294,7 +294,8 @@ map.on('draw:created', function (e) {
 
 function sendCoordinates() {
     document.getElementById('log').style.zIndex = "1000";
-    toggleConfiguration()
+    // toggleConfiguration()
+    document.getElementById('configuration-form').style.display = 'none';
 
     console.log("sending coordinates...");
     var coordinates_List = [];
