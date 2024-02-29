@@ -121,8 +121,8 @@ function showZoomLevel() {
 
 
 // #2 map
-// var map = L.map('map').setView([50.604, 10.887], 7);
-var map = L.map('map').setView([49.3497, 8.1429], 12);
+var map = L.map('map').setView([50.604, 10.887], 7);
+// var map = L.map('map').setView([49.3497, 8.1429], 12);
 
 var openTopoMapLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
     name: 'tile.opentopomap.org' // Set the name property
@@ -283,11 +283,6 @@ map.on('draw:created', function (e) {
 
 
 });
-
-
-
-
-
 
 
 // #5 send coordinates
