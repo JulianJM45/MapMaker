@@ -14,7 +14,7 @@ command = [
     "pyinstaller",
     "--onefile",
     "--console",
-    "--name", "MyMakerV3",
+    "--name", "MapMakerV3",
     "--add-data", "index.html:.",
     "--add-data", "styles.css:.",
     "--add-data", "scripts.js:.",
