@@ -14,7 +14,6 @@ cssfile = os.path.join(current_dir, 'styles.css')
 jsfile = os.path.join(current_dir, 'scripts.js')
 
 
-
 def main():
     createWebview(htmlfile, cssfile, jsfile)
     
