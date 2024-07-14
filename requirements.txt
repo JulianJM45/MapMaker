@@ -23,5 +23,4 @@ img2pdf==0.4.1
 
 
 # Webview
-cefpython3==66.0
-pywebview[cef]==3.5
+pywebview[qt]==3.5
