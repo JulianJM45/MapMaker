@@ -2,7 +2,6 @@ import math
 import requests
 import os
 from PIL import Image, ImageDraw, ImageFont
-import img2pdf
 
 POL_CF = 40007863    # Earth's circumference around poles
 ECF = 40075016.686   # Earth's circumference around the equator

@@ -1,0 +1,27 @@
+# requirements.txt
+
+# install with pip install -r requirements.txt
+
+# Standard library modules, no need to include in requirements.txt
+# threading
+# subprocess
+# platform
+# re
+# math
+# os
+
+
+
+# PyGObject for GTK platform
+PyGObject==3.42.0
+
+# Pillow for image processing
+Pillow==8.3.2
+
+requests==2.26.0
+img2pdf==0.4.1
+
+
+# Webview
+cefpython3==66.0
+pywebview[cef]==3.5

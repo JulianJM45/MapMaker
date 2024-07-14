@@ -3,6 +3,8 @@ from .get_map import *
 import subprocess
 import platform
 import re
+import img2pdf
+
 
 
 class Api:
