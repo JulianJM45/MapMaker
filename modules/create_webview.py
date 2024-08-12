@@ -1,8 +1,14 @@
 
 import webview
 import threading
+from screeninfo import get_monitors
 
 from .api import *
+
+def get_screen_resolution():
+    monitor = get_monitors()[0]
+    return monitor.width, monitor.height
+
 
 
 def createWebview(htmlfile, cssfile, jsfile):
@@ -22,7 +28,8 @@ def createWebview(htmlfile, cssfile, jsfile):
     html_content = html_content.replace('</body>', '<script>\n' + js_content + '\n</script>\n</body>')
 
     # window = webview.create_window("My Webview App", html=html_content, js_api=api)
-    window = webview.create_window("MapMaker", html=html_content, js_api=api, width=1920, height=1080)
+    width, height = get_screen_resolution()
+    window = webview.create_window("MapMaker", html=html_content, js_api=api, width=width, height=height)
 
     api.set_Window(window)
 
