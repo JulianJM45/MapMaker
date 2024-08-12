@@ -203,6 +203,40 @@ var drawOptions = {
 var drawControl = new L.Control.Draw(drawOptions);
 map.addControl(drawControl);
 
+// load GPX track
+// Get the button and file input elements
+var gpxButton = document.getElementById('gpxButton');
+var gpxFileInput = document.getElementById('gpxFileInput');
+
+// Add an event listener for the 'click' event to the button
+gpxButton.addEventListener('click', function() {
+    // Trigger the file input's click event
+    gpxFileInput.click();
+});
+
+// Add an event listener for the 'change' event to the file input
+gpxFileInput.addEventListener('change', function(e) {
+    // Get the selected file
+    var file = e.target.files[0];
+
+    // Create a new FileReader
+    var reader = new FileReader();
+
+    // Add an event listener for the 'load' event
+    reader.addEventListener('load', function(e) {
+        // Get the file's text
+        var gpxData = e.target.result;
+
+        // Load the GPX data into the map
+        new L.GPX(gpxData, {async: true}).on('loaded', function(e) {
+            map.fitBounds(e.target.getBounds());
+        }).addTo(map);
+    });
+
+    // Read the file as text
+    reader.readAsText(file);
+});
+
 
 
 
