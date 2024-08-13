@@ -24,3 +24,6 @@ img2pdf==0.4.1
 
 # Webview
 pywebview[qt]==3.5
+
+# Screeninfo for screen information
+screeninfo

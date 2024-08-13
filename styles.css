@@ -7,15 +7,35 @@ html, body {
     height: 100vh;
     width: 100vw;
   }
-#download-button, #configure-button {
+#download-button, #configure-button, #gpxButton {
     position: absolute;
-    top: 65px;
     right: 10px;
     z-index: 800;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#download-button{ 
+    top: 70px;
 }
 
 #configure-button {
-    top: 100px;
+    top: 110px;
+}
+
+#gpxButton {
+    left: 10px;
+    top: 290px;
 }
 
 #configuration-form {
