@@ -36,6 +36,7 @@ html, body {
 #gpxButton {
     left: 10px;
     top: 290px;
+    width: 50px;
 }
 
 #configuration-form {

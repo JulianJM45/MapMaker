@@ -170,32 +170,6 @@ var baseMaps = {
 L.control.layers(baseMaps).addTo(map);
 
 
-// Add MGRS grid
-L.DumbMGRS.addTo(map);
-// import {
-//     L, map, generateGZDGrids, generate100kGrids, generate1000meterGrids
-//   } from './L.DumbMGRS';
-// Grid Zone Designator (1 million by 1 million meters)
-// const generateGZDGrids = new GZD({
-//     // Example of initial options for GZD grids
-//     showLabels: true,
-//     showGrids: true,
-//     maxZoom: 18,
-//     minZoom: 4,
-//     redraw: 'moveend',
-//     lineStyle: {
-//       color: 'red',
-//       weight: 5,
-//       opacity: 0.5,
-//       smoothFactor: 1,
-//       lineCap: 'butt',
-//       lineJoin: 'miter-clip',
-//       noClip: true,
-//       interactive: false,
-//     },
-//   });
-
-
 
 
 // Create a search control and add it to the map
