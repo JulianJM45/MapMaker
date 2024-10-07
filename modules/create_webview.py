@@ -1,4 +1,3 @@
-
 import webview
 import threading
 from screeninfo import get_monitors

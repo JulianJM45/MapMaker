@@ -16,9 +16,10 @@ class Api:
         self.window.evaluate_js(js_code)
 
 
-    def send_coordinates(self, coordinates_list, MAP_STYLE, WIDTH, HEIGHT, SCALE, ZOOM, upscale, Overview, AutoZoom, PDF):
+    def send_coordinates(self, coordinates_list, MAP_STYLE, WIDTH, HEIGHT, SCALE, ZOOM, upscale, Overview, AutoZoom, PDF, MGRS):
         print("Sending coordinates to Python:", coordinates_list)
         print("Selected Tile Layer:", MAP_STYLE)
+        print(f'MGRS: {MGRS}')
         if upscale: print("upscaling")
         else: print ("no upscaling")
         max_distance=max(WIDTH, HEIGHT)
@@ -34,8 +35,8 @@ class Api:
                     
         for index, coordinates in enumerate(coordinates_list):
             self.print_message(f"Downloading Map {index + 1}...")
-            getMap(index, coordinates, MAP_STYLE, ZOOM)
-            # Extract and assign the coordinates to separate variables
+            # print(index, coordinates, MAP_STYLE, ZOOM)
+            getMap(index, coordinates, MAP_STYLE, ZOOM, MGRS)
             
             if index % 2 == 0:
                 odd_maps.append(f'MyMaps/MyMap{index + 1}.png')
@@ -197,4 +198,6 @@ def upscaling(map_file, print_message):
             number = float(match.group(1).replace(',', '.') )
             # print('Progress:', number)
             print_message(f'upscaling {map_file_without_extension}:\u2003{number}%')
+
+
 

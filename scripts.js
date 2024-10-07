@@ -36,6 +36,7 @@ const elementIds = {
     showZoomLevelButton: 'showZoomLevel',
     upscaleCheckbox: 'Upscale',
     overviewCheckbox: 'Overview',
+    mgrsInput: 'mgrs',
 };
 const elements = {};
 for (let key in elementIds) {
@@ -50,8 +51,11 @@ let config = {
     autoZoom: elements.autoZoomCheckbox.checked,
     upscale: elements.upscaleCheckbox.checked,
     overview: elements.overviewCheckbox.checked,
-    pdf: false,  // This value isn't in your HTML, so we'll just set it to true
+    pdf: false,  
+    mgrs: parseInt(elements.mgrsInput.value),
 };
+
+// console.log('Configuration loaded');
 
 // switch button
 var btn = document.getElementById('btn')
@@ -79,6 +83,7 @@ elements.zoomInput.addEventListener('input', updateConfiguration);
 elements.showZoomLevelButton.addEventListener('click', showZoomLevel);
 elements.upscaleCheckbox.addEventListener('change', updateConfiguration);
 elements.overviewCheckbox.addEventListener('change', updateConfiguration);
+elements.mgrsInput.addEventListener('input', updateConfiguration);
 
 function toggleConfiguration() {
     const configForm = document.getElementById('configuration-form');
@@ -112,8 +117,10 @@ function updateConfiguration() {
     config.autoZoom = document.getElementById('AutoZoom').checked;
     config.upscale = document.getElementById('Upscale').checked;
     config.overview = document.getElementById('Overview').checked;
-
+    config.mgrs = parseInt(document.getElementById('MGRS').value);
+    console.log('Configuration updated');
 }
+
 function showZoomLevel() {
     const z = parseInt(document.getElementById('zoom').value);
     map.setZoom(z);
@@ -123,8 +130,8 @@ function showZoomLevel() {
 
 
 // #2 map
-var map = L.map('map').setView([50.604, 10.887], 7);
-// var map = L.map('map').setView([49.3497, 8.1429], 12);
+// var map = L.map('map').setView([50.604, 10.887], 7);
+var map = L.map('map').setView([49.3497, 8.1429], 12);
 
 var openTopoMapLayer = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
     name: 'tile.opentopomap.org' // Set the name property
@@ -169,31 +176,6 @@ var baseMaps = {
 };
 L.control.layers(baseMaps).addTo(map);
 
-
-// Add MGRS grid
-L.DumbMGRS.addTo(map);
-// import {
-//     L, map, generateGZDGrids, generate100kGrids, generate1000meterGrids
-//   } from './L.DumbMGRS';
-// Grid Zone Designator (1 million by 1 million meters)
-// const generateGZDGrids = new GZD({
-//     // Example of initial options for GZD grids
-//     showLabels: true,
-//     showGrids: true,
-//     maxZoom: 18,
-//     minZoom: 4,
-//     redraw: 'moveend',
-//     lineStyle: {
-//       color: 'red',
-//       weight: 5,
-//       opacity: 0.5,
-//       smoothFactor: 1,
-//       lineCap: 'butt',
-//       lineJoin: 'miter-clip',
-//       noClip: true,
-//       interactive: false,
-//     },
-//   });
 
 
 
@@ -352,6 +334,7 @@ map.on('draw:created', function (e) {
 // #5 send coordinates
 
 function sendCoordinates() {
+    // updateConfiguration();
     document.getElementById('log').style.zIndex = "1000";
     // toggleConfiguration()
     document.getElementById('configuration-form').style.display = 'none';
@@ -388,5 +371,5 @@ function sendCoordinates() {
     });
 
     // Call the Python function to send the coordinates
-    window.pywebview.api.send_coordinates(coordinates_List, selectedTileLayer, config.width, config.height, config.scale, config.zoom, config.upscale, config.overview, config.autoZoom, config.pdf);
+    window.pywebview.api.send_coordinates(coordinates_List, selectedTileLayer, config.width, config.height, config.scale, config.zoom, config.upscale, config.overview, config.autoZoom, config.pdf, config.mgrs);
 }
