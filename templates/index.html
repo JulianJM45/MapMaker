@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MapMaker</title>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='test_scripts.js') }}"></script> -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <!-- Include Leaflet.draw CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+
+    <!-- Include Leaflet.Editable CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-editable@1.4.6/dist/Leaflet.Editable.css" />
+    <script src="https://unpkg.com/leaflet-editable@1.4.6/dist/Leaflet.Editable.js"></script>
+
+    <!-- Include Leaflet Control Geocoder CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder@1.13.0/dist/Control.Geocoder.js"></script>
+
+
+</head>
+<body>
+    
+    <div id="log"></div>
+
+    <div id="map"></div>
+    <button id="download-button">Download</button>
+
+  
+    
+    <!-- <button id="configure-button" onclick="toggleConfiguration()">Configure</button> -->
+    <button id="configure-button">Configure</button>
+
+    <div id="configuration-form" style="display: none; z-index: 1000;">
+        <h3>Edit Configuration</h3>
+        <label for="width">Width (mm)   :</label><input type="number" id="width" value="288"><br>
+        <label for="height">Height (mm) :</label><input type="number" id="height" value="201"><br>
+        <label for="scale">Scale 1:</label><input type="number" id="scale" value="25000"><br>
+        <label for="AutoZoom">AutoZoom:</label><input type="checkbox" id="AutoZoom" checked><br>
+        <label for="zoom" id="zoomLabel">Zoom Level:   </label><input type="number" id="zoom" value="14"><br> 
+        <button id="showZoomLevel">show Zoom Level on map</button><br> 
+        <label for="Upscale">Upscale Image:</label><input type="checkbox" id="Upscale" unchecked><br>     
+        <label for="Overview">Create Overview Map:</label><input type="checkbox" id="Overview" unchecked><br>
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn" id="leftButton">single PNGs</button>
+            <button type="button" class="toggle-btn" id="rightButton">bundled PDF</button>
+        </div>
+    </div>
+    
+    <button id="gpxButton">GPX</button>
+    <input type="file" id="gpxFileInput" style="display: none;">
+    
+    <!-- Include leaflet-gpx -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.5.1/gpx.min.js"></script>
+
+
+
+
+
+
+</body>
+</html>
