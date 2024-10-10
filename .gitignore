@@ -1,6 +1,9 @@
 # virtual environment venv
 .venv/
 
+# pychache files
+__pycache__/
+
 # downloaded maps
 MyMaps/
 tiles/

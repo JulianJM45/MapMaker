@@ -6,7 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 POL_CF = 40007863    # Earth's circumference around poles
 ECF = 40075016.686   # Earth's circumference around the equator
 
-icon_path = 'icons/120px-Firepit.png'
+
+
+# icon_path = 'icons/120px-Firepit.png'
 
 
 # myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf" 
@@ -160,10 +162,14 @@ def draw_firepits(image, coordinates, s_pixel):
 
     positions = []
     for firepit in get_firepits(nwLat, nwLon, seLat, seLon):
-        x_meters, y_meters = getMetersFromCoordinates(nwLat, firepit[0], firepit[1], nwLon)
-        x, y = int(x_meters / s_pixel), int(y_meters / s_pixel)
+        # x_meters, y_meters = getMetersFromCoordinates(nwLat, firepit[0], firepit[1], nwLon)
+        # x, y = int(x_meters / s_pixel), int(y_meters / s_pixel)
+        x,y = get_xy(firepit[0], firepit[1], coordinates, image.width, image.height)
         positions.append((x, y))
 
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    icon_path = os.path.join(parent_dir, 'icons/120px-Firepit.png')
 
     icon = Image.open(icon_path)
     icon = icon.resize((20, 20))
@@ -173,13 +179,11 @@ def draw_firepits(image, coordinates, s_pixel):
     return image
 
 
-
-
 def overlay_image(image, icon, positions):
     for position in positions:
         image.paste(icon, position, icon)
     return image
-    # Save the result
+
 
 def get_firepits(nwLat, nwLon, seLat, seLon):
     overpass_url = "http://overpass-api.de/api/interpreter"
@@ -201,3 +205,12 @@ def get_firepits(nwLat, nwLon, seLat, seLon):
                     firepits.append((element['center']['lat'], element['center']['lon']))
 
     return(firepits)
+
+def get_xy(lat, lon, coordinates, pix_w, pix_h):
+    nwLat, nwLon = coordinates['Northwest']
+    seLat, seLon = coordinates['SouthEast']
+
+    x= int((lon - nwLon) / (seLon - nwLon) * pix_w)
+    y= int((lat - nwLat) / (seLat - nwLat) * pix_h)
+
+    return x, y
