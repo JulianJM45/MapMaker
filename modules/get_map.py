@@ -6,6 +6,9 @@ from PIL import Image, ImageDraw, ImageFont
 POL_CF = 40007863    # Earth's circumference around poles
 ECF = 40075016.686   # Earth's circumference around the equator
 
+icon_path = 'icons/120px-Firepit.png'
+
+
 # myfont = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf" 
 if os.name == 'nt':  # Windows
     myfont = "C:\\Windows\\Fonts\\Arial.ttf"
@@ -17,6 +20,7 @@ else:  # Linux and other UNIX-like systems
 def getMap(index, coordinates, MAP_STYLE, ZOOM):
     nwLat, nwLon = coordinates['Northwest']
     seLat, seLon = coordinates['SouthEast']
+    
 
     WIDTH_METERS, HEIGHT_METERS = getMetersFromCoordinates(nwLat, seLat, seLon, nwLon)
     # Calculate tiles 
@@ -40,6 +44,7 @@ def getMap(index, coordinates, MAP_STYLE, ZOOM):
     #crop Image
     map_image = cropBorders(nwLat, nwLon, lon1, lat1, s_pixel, pix_w, pix_h, output_image)
     map_image=label(map_image, s_pixel, index)
+    map_image = draw_firepits(map_image, coordinates, s_pixel)
     # map_image.show()
     map_image.save(f'MyMaps/MyMap{index + 1}.png')
 
@@ -56,11 +61,14 @@ def getMetersFromCoordinates(north, south, east, west):
 def getZoom(max_distance):
     return int(math.log((1.3*(POL_CF+ECF)/max_distance*2),2))
 
+
 def heightFromCoordinates(north, south):
     return POL_CF*(north-south)/360
 
+
 def widthFromCoordinates(west, east, latitude):
     return ECF*math.cos(math.radians(latitude))*(east-west)/360
+
 
 def label(image, s_pixel, index):
     pix1 = int(1000/s_pixel)
@@ -73,8 +81,6 @@ def label(image, s_pixel, index):
     draw.line((10+pix1, height-15, 10+pix1, height-5), fill=(0, 0, 0), width=2)
     draw.text((10+(pix1/2), height-12), "1 km", fill=(0, 0, 0), anchor='ms', stroke_width=0)
     return image           
-
-
 
 
 def stitchTiles(x1, x2, y1, y2, ZOOM):
@@ -114,6 +120,7 @@ def cropBorders(northwest_latitude, northwest_longitude, lon1, lat1, s_pixel, pi
     cropped_image = output_image.crop((left_crop, top_crop, right_crop, bottom_crop))
     return cropped_image
 
+
 def download_tiles(x1, x2, y1, y2, ZOOM, MAP_STYLE):
     # Create Directory for Tiles
     if not os.path.exists("tiles"):
@@ -130,15 +137,67 @@ def download_tiles(x1, x2, y1, y2, ZOOM, MAP_STYLE):
                 if response.status_code == 200:
                     with open(tile_filename, 'wb') as f:
                         f.write(response.content)
+
+
 # Calculate Tile Coordinates
 def deg2num(lat_deg, lon_deg, ZOOM):
     xtile = int((lon_deg + 180.0) / 360.0 * 2.0 ** ZOOM)
     lat_rad = math.radians(lat_deg)
     ytile = int((1.0 - math.log(math.tan(lat_rad) + 1 / math.cos(lat_rad)) / math.pi) * 2.0 ** (ZOOM - 1.0))
     return xtile, ytile
+
+
 # Calculate Tile Corners Coordinates
 def num2deg(x, y, ZOOM):
     lon = (x / 2**ZOOM)*360-180
     lat = math.atan(math.sinh(math.pi-(y/2**ZOOM)*2*math.pi))*180/math.pi
     return lat, lon
 
+
+def draw_firepits(image, coordinates, s_pixel):
+    nwLat, nwLon = coordinates['Northwest']
+    seLat, seLon = coordinates['SouthEast']
+
+    positions = []
+    for firepit in get_firepits(nwLat, nwLon, seLat, seLon):
+        x_meters, y_meters = getMetersFromCoordinates(nwLat, firepit[0], firepit[1], nwLon)
+        x, y = int(x_meters / s_pixel), int(y_meters / s_pixel)
+        positions.append((x, y))
+
+
+    icon = Image.open(icon_path)
+    icon = icon.resize((20, 20))
+
+    iamge = overlay_image(image, icon, positions)
+    icon.close()
+    return image
+
+
+
+
+def overlay_image(image, icon, positions):
+    for position in positions:
+        image.paste(icon, position, icon)
+    return image
+    # Save the result
+
+def get_firepits(nwLat, nwLon, seLat, seLon):
+    overpass_url = "http://overpass-api.de/api/interpreter"
+    overpass_query = f"""
+    [out:json];
+    (
+        node["leisure"="firepit"]({seLat},{nwLon},{nwLat},{seLon});
+    );
+    out center;
+    """
+    response = requests.get(overpass_url, params={'data': overpass_query})
+    data = response.json()
+
+    firepits = []
+    for element in data['elements']:
+            if 'lat' in element and 'lon' in element:
+                    firepits.append((element['lat'], element['lon']))
+            elif 'center' in element:
+                    firepits.append((element['center']['lat'], element['center']['lon']))
+
+    return(firepits)
