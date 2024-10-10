@@ -12,19 +12,30 @@
 
 
 
-# PyGObject for GTK platform
-PyGObject==3.42.0
+## backend dependencies
 
-# Pillow for image processing
-Pillow==8.3.2
+# for downloading tiles
+requests
 
-requests==2.26.0
-img2pdf==0.4.1
+# PIL for image processing
+Pillow
+
+# png to pdf
+img2pdf
 
 
-# Webview
-pywebview[qt]==3.5
-#current version 5.2 doesn't work properly yet
+## frontend dependencies
 
-# Screeninfo for screen information
+# flask
+flask
+flask-socketio
+
+# pywebview
+pywebview
+
+# screeninfo
 screeninfo
+
+
+## pyinstaller 
+pyinstaller
